@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name" translatable="false">Foodentify</string>
+    <string name="scan_button">Scan barcode</string>
+    <string name="or_text">or</string>
+    <string name="barcode_placeholder">Barcode number</string>
+    <string name="input_manually_text">Input manually</string>
+    <string name="icon_content_description">App icon</string>
+    <string name="camera_permission_required">Camera permission is required to scan barcodes</string>
+    <string name="camera_permission_declined">Camera permission not granted</string>
+</resources>
