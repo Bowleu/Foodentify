@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="scan_button">Сканировать штрих-код</string>
+    <string name="or_text">или</string>
+    <string name="barcode_placeholder">Номер штрихкода</string>
+    <string name="input_manually_text">Ввести вручную</string>
+    <string name="icon_content_description">Иконка приложения</string>
+    <string name="camera_permission_required">Для сканирования штрих кодов необходимо разрешить использование камеры</string>
+    <string name="camera_permission_declined">Разрешение камеры не предоставлено</string>
+</resources>
