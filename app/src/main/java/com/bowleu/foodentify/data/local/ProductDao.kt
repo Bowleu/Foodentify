@@ -1,4 +1,8 @@
 package com.bowleu.foodentify.data.local
 
-class ProductDao {
+import androidx.room.Dao
+
+@Dao
+interface ProductDao {
+
 }

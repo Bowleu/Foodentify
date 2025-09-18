@@ -66,6 +66,9 @@ dependencies {
     implementation(libs.accompanist.permissions)
     implementation(libs.zxing.android.embedded)
     implementation(libs.timber)
+    implementation(libs.androidx.room.runtime)
+    ksp(libs.androidx.room.compiler)
+    implementation(libs.androidx.room.ktx)
 }
 
 hilt {
