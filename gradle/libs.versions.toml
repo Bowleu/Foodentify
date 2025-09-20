@@ -1,6 +1,7 @@
 [versions]
 accompanistPermissions = "0.37.3"
 agp = "8.13.0"
+converterGson = "3.0.0"
 daggerVersion = "2.57"
 kotlin = "2.2.0"
 coreKtx = "1.16.0"
@@ -11,7 +12,9 @@ lifecycleRuntimeKtx = "2.9.2"
 activityCompose = "1.10.1"
 composeBom = "2025.07.00"
 ksp = "2.1.21-2.0.1"
+moshi = "1.15.2"
 navigationCompose = "2.9.2"
+retrofit = "3.0.0"
 roomRuntime = "2.8.0"
 timber = "5.0.1"
 uiTextGoogleFonts = "1.8.3"
@@ -25,6 +28,8 @@ androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref =
 androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "roomRuntime" }
 androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "roomRuntime" }
 androidx-ui-text-google-fonts = { module = "androidx.compose.ui:ui-text-google-fonts", version.ref = "uiTextGoogleFonts" }
+converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "converterGson" }
+converter-moshi = { module = "com.squareup.retrofit2:converter-moshi", version.ref = "converterGson" }
 google-hilt = { module = "com.google.dagger:hilt-android", version.ref = "daggerVersion" }
 google-hilt-compiler = {module = "com.google.dagger:hilt-android-compiler", version.ref = "daggerVersion" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -40,6 +45,8 @@ androidx-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-toolin
 androidx-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
 androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
+moshi = { module = "com.squareup.moshi:moshi", version.ref = "moshi" }
+retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
 timber = { module = "com.jakewharton.timber:timber", version.ref = "timber" }
 zxing-android-embedded = { module = "com.journeyapps:zxing-android-embedded", version.ref = "zxingAndroidEmbedded" }
 
