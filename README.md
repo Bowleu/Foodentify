@@ -1,3 +1,3 @@
 В разработке. Приложение для получения общей информации о продуктах питания (КЖБУ, сахара, соли и тд). 
 
-Стэк: Kotlin, Jetpack Compose, MVVM, Hilt, Retrofit, Room.
+Стэк: Kotlin, Jetpack Compose, MVVM, Hilt, Retrofit, Room, Coil.
