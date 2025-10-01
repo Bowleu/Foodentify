@@ -40,7 +40,9 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            FoodentifyTheme {
+            FoodentifyTheme(
+
+            ) {
                 val navController = rememberNavController()
                 NavHost(navController, startDestination = Screen.Main.route) {
                     composable(Screen.Main.route) {
