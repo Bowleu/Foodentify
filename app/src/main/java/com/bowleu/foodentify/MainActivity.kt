@@ -12,11 +12,14 @@ import androidx.navigation.compose.rememberNavController
 import com.bowleu.foodentify.ui.common.Screen
 import com.bowleu.foodentify.ui.main.MainScreen
 import com.bowleu.foodentify.ui.main.MainViewModel
+import com.bowleu.foodentify.ui.product.ProductScreen
+import com.bowleu.foodentify.ui.product.ProductViewModel
 import com.bowleu.foodentify.ui.scanner.ScannerScreen
 import com.bowleu.foodentify.ui.scanner.ScannerViewModel
 import com.bowleu.foodentify.ui.theme.FoodentifyTheme
 import com.journeyapps.barcodescanner.ScanContract
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -25,12 +28,11 @@ class MainActivity : ComponentActivity() {
     }
     private val mainViewModel: MainViewModel by viewModels()
     private val scannerViewModel: ScannerViewModel by viewModels()
+    private val productViewModel: ProductViewModel by viewModels()
     private val barcodeLauncher = registerForActivityResult(ScanContract()) {
         result ->
         if (result.contents.isNullOrEmpty()) {
-            Log.w(TAG, "Barcode is null or empty.")
-        } else {
-
+            Timber.w( "Barcode is null or empty.")
         }
     }
 
@@ -46,6 +48,9 @@ class MainActivity : ComponentActivity() {
                     }
                     composable(Screen.Scanner.route) {
                         ScannerScreen(navController, scannerViewModel)
+                    }
+                    composable(Screen.Product.route) {
+                        ProductScreen(navController, productViewModel)
                     }
                 }
             }
