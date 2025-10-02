@@ -69,10 +69,10 @@ fun ProductDto.toEntity(): ProductEntity = ProductEntity(
         carbohydrates = nutriments?.carbohydrates ?: 0.0
     ),
     lastUpdated = System.currentTimeMillis(),
-    fatLevelId = nutrientLevels.fat.ordinal.toLong(),
-    saltLevelId = nutrientLevels.salt.ordinal.toLong(),
-    saturatedFatLevelId = nutrientLevels.saturatedFat.ordinal.toLong(),
-    sugarsLevelId = nutrientLevels.sugars.ordinal.toLong()
+    fatLevelId = (nutrientLevels?.fat?.ordinal ?: 0).toLong(),
+    saltLevelId = (nutrientLevels?.salt?.ordinal ?: 0).toLong(),
+    saturatedFatLevelId = (nutrientLevels?.saturatedFat?.ordinal ?: 0).toLong(),
+    sugarsLevelId = (nutrientLevels?.sugars?.ordinal ?: 0).toLong()
 )
 
 fun ProductEntity.toDomain(): Product = Product(

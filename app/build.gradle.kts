@@ -79,6 +79,7 @@ dependencies {
     implementation(libs.converter.gson)
     implementation(libs.moshi)
     implementation(libs.converter.moshi)
+    ksp(libs.moshi.kotlin.codegen)
     implementation(libs.coil.compose)
 }
 

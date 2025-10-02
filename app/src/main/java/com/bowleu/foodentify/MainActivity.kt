@@ -9,6 +9,7 @@ import androidx.activity.viewModels
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.bowleu.foodentify.ui.common.Screen
 import com.bowleu.foodentify.ui.main.MainScreen
 import com.bowleu.foodentify.ui.main.MainViewModel
@@ -20,12 +21,10 @@ import com.bowleu.foodentify.ui.theme.FoodentifyTheme
 import com.journeyapps.barcodescanner.ScanContract
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
+import androidx.navigation.NavType
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-    private companion object {
-        const val TAG = "MainActivity"
-    }
     private val mainViewModel: MainViewModel by viewModels()
     private val scannerViewModel: ScannerViewModel by viewModels()
     private val productViewModel: ProductViewModel by viewModels()
@@ -40,9 +39,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            FoodentifyTheme(
-
-            ) {
+            FoodentifyTheme {
                 val navController = rememberNavController()
                 NavHost(navController, startDestination = Screen.Main.route) {
                     composable(Screen.Main.route) {
@@ -51,7 +48,12 @@ class MainActivity : ComponentActivity() {
                     composable(Screen.Scanner.route) {
                         ScannerScreen(navController, scannerViewModel)
                     }
-                    composable(Screen.Product.route) {
+                    composable(
+                        route = Screen.Product.route,
+                        arguments = listOf(navArgument("productId") { type = NavType.StringType })
+                    ) { backStackEntry ->
+                        productViewModel.setProductId(3017620422003)
+                            //backStackEntry.arguments?.getString("productId")?.toLong() ?: 0
                         ProductScreen(navController, productViewModel)
                     }
                 }

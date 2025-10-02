@@ -6,5 +6,5 @@ sealed class Screen(val route: String) {
     object Settings : Screen("settings")
     object Profile : Screen("profile")
     object Scanner : Screen("scan")
-    object Product : Screen("product")
+    object Product : Screen("product/{productId}")
 }

@@ -322,13 +322,22 @@ fun SafetyLevelRow(name: String, level: NutrientLevel) {
 
 @Composable
 fun ProductError() {
-
+    DefaultScreenScaffold {
+        paddingValues ->
+        Box(modifier = Modifier.fillMaxSize()
+            .padding(paddingValues),
+            contentAlignment = Alignment.Center) {
+            Text("Oooooppss...")
+        }
+    }
 }
 
 @Preview
 @Composable
 fun ProductErrorPreview() {
-    ProductError()
+    FoodentifyTheme {
+        ProductError()
+    }
 }
 
 @Preview

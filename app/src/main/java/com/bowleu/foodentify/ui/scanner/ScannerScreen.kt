@@ -56,7 +56,7 @@ fun ScannerScreen(navController: NavController, viewModel: ScannerViewModel) {
         result -> if (result.contents.isNullOrEmpty()) {
         Timber.w("Barcode is null or empty.")
         } else {
-            viewModel.onBarcodeScanned(result.contents)
+            viewModel.onBarcodeScanned(result.contents, navController)
         }
     }
     BackHandler {

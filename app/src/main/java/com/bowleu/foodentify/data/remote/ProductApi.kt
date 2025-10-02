@@ -20,7 +20,7 @@ data class ProductDto(
     val code: String?,
     @Json(name = "product_name") val productName: String?,
     val quantity: String?,
-    @Json(name = "nutrient_levels") val nutrientLevels: NutrientLevelsDto,
+    @Json(name = "nutrient_levels") val nutrientLevels: NutrientLevelsDto?,
     @Json(name = "image_front_url") val imageFrontUrl: String?,
     val allergens: String?,
     val nutriments: NutrimentsDto?
