@@ -24,7 +24,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.bowleu.foodentify.R
-import com.bowleu.foodentify.ui.common.AppBranding
 import com.bowleu.foodentify.ui.common.DefaultScreenScaffold
 import com.bowleu.foodentify.ui.common.Screen
 import com.bowleu.foodentify.ui.theme.nunitoFontFamily

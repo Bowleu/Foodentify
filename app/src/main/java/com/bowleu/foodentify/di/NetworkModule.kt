@@ -1,7 +1,6 @@
 package com.bowleu.foodentify.di
 
 import com.bowleu.foodentify.data.remote.ProductApi
-import com.squareup.moshi.Moshi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

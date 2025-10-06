@@ -1,11 +1,11 @@
 package com.bowleu.foodentify
 
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -21,7 +21,6 @@ import com.bowleu.foodentify.ui.theme.FoodentifyTheme
 import com.journeyapps.barcodescanner.ScanContract
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
-import androidx.navigation.NavType
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
