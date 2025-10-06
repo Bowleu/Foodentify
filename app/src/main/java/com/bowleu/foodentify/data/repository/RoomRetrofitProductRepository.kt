@@ -57,7 +57,7 @@ class RoomRetrofitProductRepository @Inject constructor(
 fun ProductDto.toEntity(): ProductEntity = ProductEntity(
     id = (code ?: "0").toLong(),
     name = productName ?: "",
-    quantity = (quantity ?: "0").toDouble(),
+    quantity = (quantity ?: "0 g"),
     imageFrontUrl = imageFrontUrl ?: "",
     allergens = allergens ?: "",
     nutriments = NutrimentsEntity(
@@ -69,10 +69,10 @@ fun ProductDto.toEntity(): ProductEntity = ProductEntity(
         carbohydrates = nutriments?.carbohydrates ?: 0.0
     ),
     lastUpdated = System.currentTimeMillis(),
-    fatLevelId = (nutrientLevels?.fat?.ordinal ?: 0).toLong(),
-    saltLevelId = (nutrientLevels?.salt?.ordinal ?: 0).toLong(),
-    saturatedFatLevelId = (nutrientLevels?.saturatedFat?.ordinal ?: 0).toLong(),
-    sugarsLevelId = (nutrientLevels?.sugars?.ordinal ?: 0).toLong()
+    fatLevel = nutrientLevels?.fat?.name ?: "LOW",
+    saltLevel = nutrientLevels?.salt?.name ?: "LOW",
+    saturatedFatLevel = nutrientLevels?.saturatedFat?.name ?: "LOW",
+    sugarsLevel = nutrientLevels?.sugars?.name ?: "LOW"
 )
 
 fun ProductEntity.toDomain(): Product = Product(
@@ -80,10 +80,10 @@ fun ProductEntity.toDomain(): Product = Product(
     name = name,
     quantity = quantity,
     nutrientLevels = NutrientLevels(
-        fat = NutrientLevel.entries[fatLevelId.toInt()],
-        salt = NutrientLevel.entries[fatLevelId.toInt()],
-        saturatedFat = NutrientLevel.entries[fatLevelId.toInt()],
-        sugars = NutrientLevel.entries[fatLevelId.toInt()]
+        fat = NutrientLevel.valueOf(fatLevel),
+        salt = NutrientLevel.valueOf(saltLevel),
+        saturatedFat = NutrientLevel.valueOf(saturatedFatLevel),
+        sugars = NutrientLevel.valueOf(sugarsLevel)
     ),
     imageFrontUrl = imageFrontUrl,
     allergens = allergens,

@@ -52,8 +52,8 @@ class MainActivity : ComponentActivity() {
                         route = Screen.Product.route,
                         arguments = listOf(navArgument("productId") { type = NavType.StringType })
                     ) { backStackEntry ->
-                        productViewModel.setProductId(3017620422003)
-                            //backStackEntry.arguments?.getString("productId")?.toLong() ?: 0
+                        val productId = backStackEntry.arguments?.getString("productId")?.toLong() ?: 0
+                        productViewModel.setProductId(productId)
                         ProductScreen(navController, productViewModel)
                     }
                 }

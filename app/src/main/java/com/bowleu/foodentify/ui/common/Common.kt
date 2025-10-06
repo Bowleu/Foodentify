@@ -6,7 +6,9 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -20,13 +22,17 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.bowleu.foodentify.R
 import com.bowleu.foodentify.ui.theme.nunitoFontFamily
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DefaultScreenScaffold(content:  @Composable ((PaddingValues) -> Unit)) {
+fun DefaultScreenScaffold(shouldShowBackButton: Boolean = false,
+                       shouldShowTitle: Boolean = true,
+                       navController: NavController? = null,
+                       content:  @Composable ((PaddingValues) -> Unit)) {
     Scaffold(topBar = {
         TopAppBar(
             colors = TopAppBarDefaults.topAppBarColors(
@@ -34,19 +40,32 @@ fun DefaultScreenScaffold(content:  @Composable ((PaddingValues) -> Unit)) {
                 titleContentColor = MaterialTheme.colorScheme.primary,
             ),
             title = {
-                AppBranding()
+                if (shouldShowTitle) {
+                    AppBranding()
+                }
+            },
+            navigationIcon = {
+                if (shouldShowBackButton) {
+                    IconButton(
+                        onClick = {
+                            navController?.popBackStack()
+                        },
+                        modifier = Modifier.size(48.dp) // больше стандартных 40dp
+                    ) {
+                        Icon(
+                            painter = painterResource(R.drawable.arrow_back),
+                            contentDescription = stringResource(R.string.back_content_description),
+                            tint = MaterialTheme.colorScheme.onSurface,
+                            modifier = Modifier.size(28.dp)
+                        )
+                    }
+                }
             }
         )
     }
     ) {
-        innerPadding -> content(innerPadding)
+            innerPadding -> content(innerPadding)
     }
-}
-
-@Preview
-@Composable
-fun DefaultScreenScaffoldPreview() {
-    DefaultScreenScaffold {  }
 }
 
 @Composable
@@ -63,6 +82,15 @@ fun AppBranding(modifier: Modifier = Modifier) {
             color = Color(0xFFA5D6A7)
         )
     }
+}
+
+@Preview
+@Composable
+fun DefaultScreenScaffoldPreview() {
+    DefaultScreenScaffold(
+        shouldShowBackButton = true,
+        shouldShowTitle = true
+    ) {  }
 }
 
 @Preview

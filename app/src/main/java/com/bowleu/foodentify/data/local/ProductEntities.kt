@@ -9,48 +9,16 @@ import androidx.room.PrimaryKey
 
 @Entity(
     tableName = "products",
-    foreignKeys = [
-        ForeignKey(
-            entity = NutrientLevelEntity::class,
-            parentColumns = ["id"],
-            childColumns = ["id_fat_level"],
-            onDelete = ForeignKey.CASCADE
-        ),
-        ForeignKey(
-            entity = NutrientLevelEntity::class,
-            parentColumns = ["id"],
-            childColumns = ["id_salt_level"],
-            onDelete = ForeignKey.CASCADE
-        ),
-        ForeignKey(
-            entity = NutrientLevelEntity::class,
-            parentColumns = ["id"],
-            childColumns = ["id_saturated_fat_level"],
-            onDelete = ForeignKey.CASCADE
-        ),
-        ForeignKey(
-            entity = NutrientLevelEntity::class,
-            parentColumns = ["id"],
-            childColumns = ["id_sugars_level"],
-            onDelete = ForeignKey.CASCADE
-        )
-    ],
-    indices = [
-        Index("id_fat_level"),
-        Index("id_salt_level"),
-        Index("id_saturated_fat_level"),
-        Index("id_sugars_level")
-    ]
 )
 data class ProductEntity(
     @PrimaryKey(autoGenerate = false) val id: Long,
     val name: String,
-    val quantity: Double,
+    val quantity: String,
     @ColumnInfo(name = "image_front_url") val imageFrontUrl: String,
-    @ColumnInfo(name = "id_fat_level") val fatLevelId: Long,
-    @ColumnInfo(name = "id_salt_level") val saltLevelId: Long,
-    @ColumnInfo(name = "id_saturated_fat_level") val saturatedFatLevelId: Long,
-    @ColumnInfo(name = "id_sugars_level") val sugarsLevelId: Long,
+    @ColumnInfo(name = "fat_level") val fatLevel: String,
+    @ColumnInfo(name = "salt_level") val saltLevel: String,
+    @ColumnInfo(name = "saturated_fat_level") val saturatedFatLevel: String,
+    @ColumnInfo(name = "sugars_level") val sugarsLevel: String,
     val allergens: String,
     @Embedded val nutriments: NutrimentsEntity,
     @ColumnInfo(name = "last_updated") val lastUpdated: Long = System.currentTimeMillis(),
@@ -64,13 +32,4 @@ data class NutrimentsEntity(
     val salt: Double,
     val sugars: Double,
     val carbohydrates: Double
-)
-
-@Entity(
-    tableName = "nutrient_levels",
-    indices = [Index("name", unique = true)]
-)
-data class NutrientLevelEntity(
-    @PrimaryKey(autoGenerate = true) val id: Long,
-    @ColumnInfo("name") val name: String
 )

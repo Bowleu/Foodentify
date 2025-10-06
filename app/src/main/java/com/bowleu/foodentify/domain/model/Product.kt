@@ -3,7 +3,7 @@ package com.bowleu.foodentify.domain.model
 data class Product(
     val id: Long,
     val name: String,
-    val quantity: Double,
+    val quantity: String,
     val nutrientLevels: NutrientLevels,
     val imageFrontUrl: String,
     val allergens: String,

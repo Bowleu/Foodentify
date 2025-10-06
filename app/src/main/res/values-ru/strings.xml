@@ -7,4 +7,23 @@
     <string name="icon_content_description">Иконка приложения</string>
     <string name="camera_permission_required">Для сканирования штрих кодов необходимо разрешить использование камеры</string>
     <string name="camera_permission_declined">Разрешение камеры не предоставлено</string>
+    <string name="sugars">Сахара</string>
+    <string name="fats">Жиры</string>
+    <string name="saturated_fats">Насыщенные жиры</string>
+    <string name="salt">Соль</string>
+    <string name="high_level">Высокий</string>
+    <string name="moderate_level">Умеренный</string>
+    <string name="low_level">Низкий</string>
+    <string name="food_safety_header">Пищевая безопасность</string>
+    <string name="ingredients_header">Ингредиенты</string>
+    <string name="product_composition">Состав (БЖУ)</string>
+    <string name="carbohydrates">Углеводы</string>
+    <string name="proteins">Белки</string>
+    <string name="volume">Объем</string>
+    <string name="food_energy">Энергетическая ценность</string>
+    <string name="allergens">Аллегрены</string>
+    <string name="no_allergens">Аллергены отсутствуют</string>
+    <string name="product_image_content_description">Фото продукта</string>
+    <string name="kcal">Ккал</string>
+    <string name="back_content_description">Стрелка назад</string>
 </resources>

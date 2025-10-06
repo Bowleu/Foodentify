@@ -7,4 +7,24 @@
     <string name="icon_content_description">App icon</string>
     <string name="camera_permission_required">Camera permission is required to scan barcodes</string>
     <string name="camera_permission_declined">Camera permission not granted</string>
+    <string name="sugars">Sugars</string>
+    <string name="fats">Fats</string>
+    <string name="saturated_fats">Saturated fats</string>
+    <string name="salt">Salt</string>
+    <string name="high_level">High</string>
+    <string name="moderate_level">Moderate</string>
+    <string name="low_level">Low</string>
+    <string name="food_safety_header">Food safety</string>
+    <string name="ingredients_header">Ingredients</string>
+    <string name="product_composition">Composition (P/F/C)</string>
+    <string name="carbohydrates">Carbohydrates</string>
+    <string name="proteins">Proteins</string>
+    <string name="volume">Volume</string>
+    <string name="food_energy">Energy</string>
+    <string name="allergens">Allergens</string>
+    <string name="no_allergens">No allergens</string>
+    <string name="product_image_content_description">Product image</string>
+    <string name="kcal">Kcal</string>
+    <string name="back_content_description">Back arrow</string>
+
 </resources>

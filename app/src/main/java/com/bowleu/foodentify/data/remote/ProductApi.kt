@@ -28,10 +28,10 @@ data class ProductDto(
 
 @JsonClass(generateAdapter = true)
 data class NutrientLevelsDto(
-    val fat: NutrientLevelDto,
-    val salt: NutrientLevelDto,
-    @Json(name = "saturated-fat") val saturatedFat: NutrientLevelDto,
-    val sugars: NutrientLevelDto,
+    val fat: NutrientLevelDto?,
+    val salt: NutrientLevelDto?,
+    @Json(name = "saturated-fat") val saturatedFat: NutrientLevelDto?,
+    val sugars: NutrientLevelDto?,
 )
 
 enum class NutrientLevelDto {

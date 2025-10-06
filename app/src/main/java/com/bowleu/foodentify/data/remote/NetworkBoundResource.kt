@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.flow
 import timber.log.Timber
 
 inline fun <ResultType, RequestType> networkBoundResource(
-    crossinline query: () -> Flow<ResultType>, // запрос к БД
+    crossinline query: suspend () -> Flow<ResultType>, // запрос к БД
     crossinline fetch: suspend () -> RequestType, // запрос к API
     crossinline saveFetchResult: suspend (RequestType) -> Unit, // сохранение сетевого запроса в БД
     crossinline shouldFetch: (ResultType?) -> Boolean = { true } // проверка необходимости запроса
