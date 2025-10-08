@@ -26,4 +26,6 @@
     <string name="product_image_content_description">Фото продукта</string>
     <string name="kcal">Ккал</string>
     <string name="back_content_description">Стрелка назад</string>
+    <string name="something_went_wrong">Что-то пошло не так</string>
+    <string name="unable_to_load_data">Не удалось загрузить данные. Попробуйте позже.</string>
 </resources>

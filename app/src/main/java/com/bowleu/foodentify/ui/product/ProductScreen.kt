@@ -22,10 +22,12 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ProgressIndicatorDefaults
@@ -41,7 +43,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
@@ -54,6 +58,8 @@ import com.bowleu.foodentify.domain.model.NutrientLevels
 import com.bowleu.foodentify.domain.model.Nutriments
 import com.bowleu.foodentify.domain.model.Product
 import com.bowleu.foodentify.ui.common.DefaultScreenScaffold
+import com.bowleu.foodentify.ui.common.ErrorScreen
+import com.bowleu.foodentify.ui.common.LoadingScreen
 import com.bowleu.foodentify.ui.theme.FoodentifyTheme
 import timber.log.Timber
 
@@ -72,23 +78,22 @@ fun ProductScreen(
         }
     }
 
-    DefaultScreenScaffold(
-        shouldShowTitle = true,
-        shouldShowBackButton = true,
-        navController = navController
-    ) {
-        paddingValues ->
-        when (viewModel.uiLoadingState.collectAsState().value) {
-            UiLoadingState.IDLE -> ProductError()
-            UiLoadingState.LOADING -> ProductLoading()
-            UiLoadingState.ERROR -> ProductError()
-            UiLoadingState.SUCCESS ->
-                product.let {
-                    if (it != null) {
+    when (viewModel.uiLoadingState.collectAsState().value) {
+        UiLoadingState.IDLE -> ErrorScreen()
+        UiLoadingState.LOADING -> LoadingScreen()
+        UiLoadingState.ERROR -> ErrorScreen()
+        UiLoadingState.SUCCESS ->
+            product.let {
+                if (it != null) {
+                    DefaultScreenScaffold(
+                        shouldShowTitle = true,
+                        shouldShowBackButton = true,
+                        navController = navController
+                    ) { paddingValues ->
                         ProductDetails(it, paddingValues, animateTrigger.value)
                     }
                 }
-        }
+            }
     }
 }
 
@@ -168,12 +173,13 @@ fun ProductDetails(
                         horizontalArrangement = Arrangement.SpaceAround,
                         verticalAlignment = Alignment.CenterVertically
                     ) {
+                        val data = listOf(
+                            Triple(R.string.proteins, product.nutriments.proteins, Color(0xFF4CAF50)),
+                            Triple(R.string.fats, product.nutriments.fat, Color(0xFFFF9800)),
+                            Triple(R.string.carbohydrates, product.nutriments.carbohydrates, Color(0xFF2196F3))
+                        )
                         PieChart(
-                            data = mapOf(
-                                R.string.proteins to product.nutriments.proteins,
-                                R.string.fats to product.nutriments.fat,
-                                R.string.carbohydrates to product.nutriments.carbohydrates
-                            ),
+                            data = data,
                             modifier = Modifier.size(150.dp),
                             animateTrigger = animateTrigger
                         )
@@ -311,16 +317,9 @@ fun SafetyLevelRow(name: Int, level: NutrientLevel, animateTrigger: Boolean) {
 
 @Composable
 fun PieChart(
-    data: Map<Int, Double>,
+    data: List<Triple<Int, Double, Color>>,
     modifier: Modifier = Modifier,
-    animateTrigger: Boolean,
-    colors: List<Color> = listOf(
-        Color(0xFF81C784),
-        Color(0xFFFFB74D),
-        Color(0xFF64B5F6),
-        Color(0xFFE57373),
-        Color(0xFFBA68C8)
-    )
+    animateTrigger: Boolean
 ) {
 
     val animationProgress by animateFloatAsState(
@@ -329,18 +328,30 @@ fun PieChart(
     )
 
     Canvas(modifier = modifier) {
-        val total = data.values.sum()
+        val total = 100.0
         var startAngle = -90f
+        var sum = 0.0
 
-        data.entries.forEachIndexed { index, entry ->
-            val sweepAngle = (entry.value / total * 360 * animationProgress).toFloat()
+        for (nutriment in data) {
+            val sweepAngle = (nutriment.second / total * 360 * animationProgress).toFloat()
             drawArc(
-                color = colors.getOrElse(index) { Color.Gray },
+                color = nutriment.third,
                 startAngle = startAngle,
                 sweepAngle = sweepAngle,
                 useCenter = true
             )
             startAngle += sweepAngle
+            sum += nutriment.second
+        }
+        val others = 100 - sum
+        if (others > 0) {
+            val sweepAngle = (others / total * 360 * animationProgress).toFloat()
+            drawArc(
+                color = Color(0xFFBA68C8),
+                startAngle = startAngle,
+                sweepAngle = sweepAngle,
+                useCenter = true
+            )
         }
     }
 }
@@ -355,65 +366,6 @@ fun CardItem(rounded: Dp, elevation: Dp, modifier: Modifier = Modifier, content:
         Column(modifier = Modifier.padding(16.dp)) {
             content()
         }
-    }
-}
-
-
-@Composable
-fun ProductError() {
-    DefaultScreenScaffold(
-        shouldShowTitle = true,
-        shouldShowBackButton = true
-    ) {
-        paddingValues ->
-        Box(modifier = Modifier
-            .fillMaxSize()
-            .padding(paddingValues),
-            contentAlignment = Alignment.Center) {
-            Text("Oooooppss...")
-        }
-    }
-}
-
-@Composable
-fun ProductLoading() {
-    DefaultScreenScaffold(
-        shouldShowTitle = true,
-        shouldShowBackButton = true
-    ) { paddingValues ->
-
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(paddingValues),
-            contentAlignment = Alignment.Center
-        ) {
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = Modifier.padding(0.dp)
-            ) {
-                CircularProgressIndicator(
-                    color = MaterialTheme.colorScheme.primary,
-                    strokeWidth = 4.dp
-                )
-            }
-        }
-    }
-}
-
-@Preview
-@Composable
-fun ProductErrorPreview() {
-    FoodentifyTheme {
-        ProductError()
-    }
-}
-
-@Preview
-@Composable
-fun ProductLoadingPreview() {
-    FoodentifyTheme {
-        ProductLoading()
     }
 }
 

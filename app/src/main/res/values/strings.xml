@@ -26,5 +26,7 @@
     <string name="product_image_content_description">Product image</string>
     <string name="kcal">Kcal</string>
     <string name="back_content_description">Back arrow</string>
+    <string name="something_went_wrong">Something went wrong</string>
+    <string name="unable_to_load_data">Unable to load data. Try later.</string>
 
 </resources>
