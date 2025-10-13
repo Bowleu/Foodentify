@@ -53,6 +53,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
 import com.bowleu.foodentify.R
+import com.bowleu.foodentify.domain.model.Ingredient
 import com.bowleu.foodentify.domain.model.NutrientLevel
 import com.bowleu.foodentify.domain.model.NutrientLevels
 import com.bowleu.foodentify.domain.model.Nutriments
@@ -79,7 +80,10 @@ fun ProductScreen(
     }
 
     when (viewModel.uiLoadingState.collectAsState().value) {
-        UiLoadingState.IDLE -> ErrorScreen()
+        UiLoadingState.IDLE -> {
+            ErrorScreen()
+            Timber.e("IDLE SCREEN ERROR")
+        }
         UiLoadingState.LOADING -> LoadingScreen()
         UiLoadingState.ERROR -> ErrorScreen()
         UiLoadingState.SUCCESS ->
@@ -238,8 +242,7 @@ fun ProductDetails(
 
                     Spacer(modifier = Modifier.height(8.dp))
 
-                    // Ингредиенты
-                    // TODO добавить
+                    IngredientsList(product.ingredients)
 
                     Spacer(modifier = Modifier.height(12.dp))
 
@@ -356,6 +359,43 @@ fun PieChart(
     }
 }
 
+
+@Composable
+fun IngredientsList(ingredients: List<Ingredient>, level: Int = 0) {
+    Column(modifier = Modifier.fillMaxWidth()) {
+        ingredients.forEach { ingredient ->
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = (level * 12).dp, top = 4.dp, bottom = 4.dp)
+            ) {
+                // Иконка веган/вегетарианец
+                val icon = when (ingredient.vegan.lowercase()) {
+                    "yes" -> "🌱"
+                    "maybe" -> "🥕"
+                    else -> "⚪"
+                }
+                Text(icon, modifier = Modifier.width(24.dp))
+
+                Spacer(modifier = Modifier.width(4.dp))
+
+                // Название и процент
+                Text(
+                    text = "${ingredient.name} — ${ingredient.percent}%",
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurface
+                )
+            }
+
+            // Вложенные ингредиенты
+            if (ingredient.ingredients.isNotEmpty()) {
+                IngredientsList(ingredient.ingredients, level + 1)
+            }
+        }
+    }
+}
+
 @Composable
 fun CardItem(rounded: Dp, elevation: Dp, modifier: Modifier = Modifier, content: @Composable (ColumnScope.() -> Unit)) {
     Card(
@@ -394,6 +434,29 @@ fun ProductDetailsPreview() {
                         salt = 0.68,
                         sugars = 23.0,
                         carbohydrates = 70.0
+                    ),
+                    ingredients = listOf(
+                        Ingredient(
+                            name = "Мука хлебопекарная",
+                            percent = 60.1,
+                            vegan = "yes",
+                            vegetarian = "yes",
+                            ingredients = emptyList()
+                        ),
+                        Ingredient(
+                            name = "Сахар",
+                            percent = 23.1,
+                            vegan = "yes",
+                            vegetarian = "yes",
+                            ingredients = emptyList()
+                        ),
+                        Ingredient(
+                            name = "Песок",
+                            percent = 6.0,
+                            vegan = "yes",
+                            vegetarian = "yes",
+                            ingredients = emptyList()
+                        ),
                     )
                 ), padding = paddingValues,
                 animateTrigger = true

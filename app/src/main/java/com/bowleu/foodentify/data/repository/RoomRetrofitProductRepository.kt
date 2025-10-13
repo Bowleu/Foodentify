@@ -1,20 +1,27 @@
 package com.bowleu.foodentify.data.repository
 
+import androidx.compose.ui.text.toUpperCase
+import com.bowleu.foodentify.data.local.IngredientEntity
 import com.bowleu.foodentify.data.local.NutrimentsEntity
 import com.bowleu.foodentify.data.local.ProductDao
 import com.bowleu.foodentify.data.local.ProductEntity
+import com.bowleu.foodentify.data.remote.IngredientDto
 import com.bowleu.foodentify.data.remote.ProductApi
 import com.bowleu.foodentify.data.remote.ProductDto
 import com.bowleu.foodentify.data.remote.networkBoundResource
+import com.bowleu.foodentify.domain.model.Ingredient
 import com.bowleu.foodentify.domain.model.NutrientLevel
 import com.bowleu.foodentify.domain.model.NutrientLevels
 import com.bowleu.foodentify.domain.model.Nutriments
 import com.bowleu.foodentify.domain.model.Product
 import com.bowleu.foodentify.domain.repository.ProductRepository
+import com.squareup.moshi.Moshi
+import com.squareup.moshi.Types
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import timber.log.Timber
 import javax.inject.Inject
+import kotlin.collections.map
 
 class RoomRetrofitProductRepository @Inject constructor(
     private val api: ProductApi,
@@ -57,7 +64,7 @@ class RoomRetrofitProductRepository @Inject constructor(
 fun ProductDto.toEntity(): ProductEntity = ProductEntity(
     id = (code ?: "0").toLong(),
     name = productName ?: "",
-    quantity = (quantity ?: "0 g"),
+    quantity = quantity ?: "0 g",
     imageFrontUrl = imageFrontUrl ?: "",
     allergens = allergens ?: "",
     nutriments = NutrimentsEntity(
@@ -72,27 +79,47 @@ fun ProductDto.toEntity(): ProductEntity = ProductEntity(
     fatLevel = nutrientLevels?.fat?.name ?: "LOW",
     saltLevel = nutrientLevels?.salt?.name ?: "LOW",
     saturatedFatLevel = nutrientLevels?.saturatedFat?.name ?: "LOW",
-    sugarsLevel = nutrientLevels?.sugars?.name ?: "LOW"
+    sugarsLevel = nutrientLevels?.sugars?.name ?: "LOW",
+    ingredients = ingredients?.map { it.toEntity() }.orEmpty(),
 )
 
-fun ProductEntity.toDomain(): Product = Product(
-    id = id,
-    name = name,
-    quantity = quantity,
-    nutrientLevels = NutrientLevels(
-        fat = NutrientLevel.valueOf(fatLevel),
-        salt = NutrientLevel.valueOf(saltLevel),
-        saturatedFat = NutrientLevel.valueOf(saturatedFatLevel),
-        sugars = NutrientLevel.valueOf(sugarsLevel)
-    ),
-    imageFrontUrl = imageFrontUrl,
-    allergens = allergens,
-    nutriments = Nutriments(
-        energyKcal = nutriments.energyKcal,
-        fat = nutriments.fat,
-        proteins = nutriments.proteins,
-        salt = nutriments.salt,
-        sugars = nutriments.sugars,
-        carbohydrates = nutriments.carbohydrates
+fun IngredientDto.toEntity(): IngredientEntity = IngredientEntity(
+    name = text ?: "",
+    percent = percentEstimate ?: 0.0,
+    vegan = vegan ?: "",
+    vegetarian = vegetarian ?: "",
+    ingredients = ingredients?.map { it.toEntity() }.orEmpty()
+)
+
+fun ProductEntity.toDomain(): Product {
+    return Product(
+        id = id,
+        name = name,
+        quantity = quantity,
+        nutrientLevels = NutrientLevels(
+            fat = NutrientLevel.valueOf(fatLevel.uppercase()),
+            salt = NutrientLevel.valueOf(saltLevel.uppercase()),
+            saturatedFat = NutrientLevel.valueOf(saturatedFatLevel.uppercase()),
+            sugars = NutrientLevel.valueOf(sugarsLevel.uppercase())
+        ),
+        imageFrontUrl = imageFrontUrl,
+        allergens = allergens,
+        nutriments = Nutriments(
+            energyKcal = nutriments.energyKcal,
+            fat = nutriments.fat,
+            proteins = nutriments.proteins,
+            salt = nutriments.salt,
+            sugars = nutriments.sugars,
+            carbohydrates = nutriments.carbohydrates
+        ),
+        ingredients = ingredients.map { it.toDomain() }
     )
+}
+
+fun IngredientEntity.toDomain(): Ingredient = Ingredient(
+    name = name,
+    percent = percent,
+    vegan = vegan,
+    vegetarian = vegetarian,
+    ingredients = ingredients.map { it.toDomain() }
 )

@@ -20,6 +20,7 @@ data class ProductEntity(
     val allergens: String,
     @Embedded val nutriments: NutrimentsEntity,
     @ColumnInfo(name = "last_updated") val lastUpdated: Long = System.currentTimeMillis(),
+    val ingredients: List<IngredientEntity>
 )
 
 
@@ -30,4 +31,12 @@ data class NutrimentsEntity(
     val salt: Double,
     val sugars: Double,
     val carbohydrates: Double
+)
+
+data class IngredientEntity(
+    val name: String,
+    val percent: Double,
+    val vegan: String,
+    val vegetarian: String,
+    val ingredients: List<IngredientEntity>
 )

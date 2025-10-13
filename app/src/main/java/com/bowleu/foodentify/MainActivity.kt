@@ -52,6 +52,7 @@ class MainActivity : ComponentActivity() {
                         arguments = listOf(navArgument("productId") { type = NavType.StringType })
                     ) { backStackEntry ->
                         val productId = backStackEntry.arguments?.getString("productId")?.toLong() ?: 0
+                        Timber.e("ProductId: $productId")
                         productViewModel.setProductId(productId)
                         ProductScreen(navController, productViewModel)
                     }

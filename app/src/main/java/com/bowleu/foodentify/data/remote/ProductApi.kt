@@ -23,7 +23,8 @@ data class ProductDto(
     @Json(name = "nutrient_levels") val nutrientLevels: NutrientLevelsDto?,
     @Json(name = "image_front_url") val imageFrontUrl: String?,
     val allergens: String?,
-    val nutriments: NutrimentsDto?
+    val nutriments: NutrimentsDto?,
+    val ingredients: List<IngredientDto>? = null
 )
 
 @JsonClass(generateAdapter = true)
@@ -43,6 +44,15 @@ enum class NutrientLevelDto {
     HIGH
 }
 
+data class IngredientDto(
+    val id: String?,
+    val text: String?,
+    @Json(name = "percent_estimate") val percentEstimate: Double?,
+    val vegan: String?,
+    val vegetarian: String?,
+    val ingredients: List<IngredientDto>? = null
+)
+
 @JsonClass(generateAdapter = true)
 data class NutrimentsDto(
     @Json(name = "energy-kcal") val energyKcal: Double?,
@@ -58,6 +68,6 @@ interface ProductApi {
     suspend fun getProductById(
         @Path("barcode") barcode: String,
         @Query("product_type") productType: String = "food",
-        @Query("fields") fields: String = "code,product_name,quantity,nutrient_levels,image_front_url,allergens,nutriments.energy-kcal,nutriments.fat,nutriments.proteins,nutriments.salt,nutriments.sugars,nutriments.carbohydrates"
+        @Query("fields") fields: String = "code,product_name,quantity,nutrient_levels,image_front_url,allergens,nutriments.energy-kcal,nutriments.fat,nutriments.proteins,nutriments.salt,nutriments.sugars,nutriments.carbohydrates,ingredients"
     ): Response<ProductResponse>
 }

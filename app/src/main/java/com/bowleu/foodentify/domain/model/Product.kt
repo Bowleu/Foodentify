@@ -7,7 +7,8 @@ data class Product(
     val nutrientLevels: NutrientLevels,
     val imageFrontUrl: String,
     val allergens: String,
-    val nutriments: Nutriments
+    val nutriments: Nutriments,
+    val ingredients: List<Ingredient>
 )
 
 data class NutrientLevels(
@@ -30,4 +31,12 @@ data class Nutriments(
     val salt: Double,
     val sugars: Double,
     val carbohydrates: Double
+)
+
+data class Ingredient(
+    val name: String,
+    val percent: Double,
+    val vegan: String,
+    val vegetarian: String,
+    val ingredients: List<Ingredient>
 )
